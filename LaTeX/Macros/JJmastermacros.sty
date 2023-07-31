@@ -5,10 +5,12 @@
 \usepackage{amsmath}
 \usepackage{eurosym}
 \usepackage{listings}
+\usepackage{tikzsymbols}
 
 %JJ's Thesis-ready stuff
 \newcommand*{\bi}{\begin{itemize}} %Itemize is so fiddly to type
 \newcommand*{\ei}{\end{itemize}}
+\newcommand*{\rarrow}{\ensuremath{\rightarrow}\xspace} %rightarrow is so fiddly to type
 \newcommand*{\ritem}{\item[\rarrow]}
 \newcommand*{\bc}{\begin{center}} %as is centre
 \newcommand*{\ec}{\end{center}}
@@ -18,8 +20,6 @@
 \newcommand*{\rodash}{\kern 0.2ex -} %Right offset dash
 \newcommand*{\lodash}{-\kern 0.2ex } %Left offset dash
 \newcommand*{\roughly}{\ensuremath{\sim}} % ~ cos who can ever remember it's \sim
-\newcommand*{\tableHSpace}[1]{\setlength{\tabcolsep}{#1}} %For nice table formatting, Usage: tableHSpace{value} before 
-\newcommand*{\tableVSpace}[1]{\renewcommand{\arraystretch}{#1}}
 
 %HEP specific
 \newcommand*{\Deltaphi}{$\Delta{\phi}$\xspace} %Dphi
@@ -59,7 +59,7 @@
 \DeclareRobustCommand{\ATLAS}{ATLAS\xspace}
 
 %Table and figure formatting
-\newcommand*{\tableHSpace}[1]{\setlength{\tabcolsep}{#1}}
+\newcommand*{\tableHSpace}[1]{\setlength{\tabcolsep}{#1}} %For nice table formatting, Usage: tableHSpace{value} before drawing table
 \newcommand*{\tableVSpace}[1]{\renewcommand{\arraystretch}{#1}}
 \newcommand*{\bt}[1]{\begin{table}[#1]} %tbh table isn't that fiddly but I'm on a roll here
 \newcommand*{\et}{\end{table}} 
@@ -103,7 +103,9 @@
 \newcommand{\cross}{$\mathbin{\tikz [x=1.4ex,y=1.4ex,line width=.2ex, red] \draw (0,0) -- (1,1) (0,1) -- (1,0);}$} %\cross for pretending to be a pirate
 
 \def\£{\pounds} %punds
-\NewDocumentCommand{\bold}{ m }{\textbf{#1}}
+\@ifpackageloaded{amssymb}{}{%
+	\NewDocumentCommand{\bold}{ m }{\textbf{#1}}
+}%
 \NewDocumentCommand{\ital}{ m }{\textit{#1}}
 \newcommand{\slashface}{\cChangey[1.5]{-0.5}\xspace} % :/ face 
 \newcommand{\sadface}{\cChangey[1.5][sadblue]{-1.5}\xspace} % :( face
@@ -118,6 +120,17 @@
 }
 
 \NewDocumentCommand{\pic}{ O{1} O{white} m }{ % Put figures in a box /jjbox[width][colour]{path}
+\fcolorbox{white}{#2}{\begin {minipage}{#1\textwidth}
+\begin{figure}[H]
+\begin{center}
+\includegraphics[width=\linewidth]{#3}
+\end{center}
+\end {figure}
+\end{minipage}
+} %colorbox
+} %command
+
+\NewDocumentCommand{\boxpic}{ O{1} O{white} m }{ % Put figures in a box /jjbox[width][colour]{path}
 \fcolorbox{black}{#2}{\begin {minipage}{#1\textwidth}
 \begin{figure}[H]
 \begin{center}
